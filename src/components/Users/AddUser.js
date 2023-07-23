@@ -13,16 +13,32 @@ const AddUser = (props) => {
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
       return;
     }
+
+    // 단항 덧셈 연산자를 사용해 변수를 강제로 숫자로 변환
     if (+enteredAge < 1) {
       return;
     }
+
+    console.log(enteredUsername, enteredAge);
+
+    const saveUserData = {
+      username: enteredUsername,
+      age: +enteredAge,
+      // id: Math.random().toString(),
+    };
+
+    props.onAddUser(saveUserData);
+
+    // Number()를 사용해 변수를 숫자로 변환
     // if (Number(enteredAge) < 1) {
     //   return;
     // }
-    // if (enteredAge.toString() < 1) {
+
+    // 이 코드 자체로 문제는 없지만 좀 더 안전하게 하기위해 +, Number()를 사용하는걸 추천
+    // 의도치 않은 오류를 방지하기 위해서 위의 두 가지 방법을 사용
+    // if (enteredAge < 1) {
     //   return;
     // }
-    console.log(enteredUsername, enteredAge);
     setEnteredUsername("");
     setEnteredAge("");
   };
