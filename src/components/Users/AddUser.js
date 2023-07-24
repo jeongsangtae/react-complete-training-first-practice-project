@@ -21,13 +21,15 @@ const AddUser = (props) => {
 
     console.log(enteredUsername, enteredAge);
 
-    const saveUserData = {
-      username: enteredUsername,
-      age: +enteredAge,
-      // id: Math.random().toString(),
-    };
+    // AddUser 컴포넌트에서 먼저 저장하는 코드
+    // 내가 짠 코드
+    // const saveUserData = {
+    //   username: enteredUsername,
+    //   age: +enteredAge,
+    //   // id: Math.random().toString(),
+    // };
 
-    props.onAddUser(saveUserData);
+    props.onAddUser(enteredUsername, enteredAge);
 
     // Number()를 사용해 변수를 숫자로 변환
     // if (Number(enteredAge) < 1) {
