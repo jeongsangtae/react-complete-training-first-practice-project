@@ -8,15 +8,24 @@ import styles from "./AddUser.module.css";
 const AddUser = (props) => {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
+  const [error, setError] = useState();
 
   const addUserHandler = (event) => {
     event.preventDefault();
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({
+        title: "입력 값이 비어있습니다.",
+        message: "이름과 나이를 비어있지 않게 입력해 주세요.",
+      });
       return;
     }
 
     // 단항 덧셈 연산자를 사용해 변수를 강제로 숫자로 변환
     if (+enteredAge < 1) {
+      setError({
+        title: "나이 입력이 잘못되었습니다.",
+        message: "나이는 0 이상을 입력해 주세요.",
+      });
       return;
     }
 
@@ -54,12 +63,19 @@ const AddUser = (props) => {
     setEnteredAge(event.target.value);
   };
 
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
     <div>
-      <ErrorModal
-        title="오류가 발생했습니다!"
-        message="무엇인가 잘못된 거 같습니다."
-      />
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <Card className={styles.input}>
         <form onSubmit={addUserHandler}>
           <label htmlFor="username">Username</label>
