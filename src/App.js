@@ -21,12 +21,18 @@ const App = () => {
   // 강의의 코드
   const addedUserHandler = (uName, uAge) => {
     // return과 {}를 사용해 반환하는 방법을 사용
-    setUsers((prevUsers) => {
-      return [
-        ...prevUsers,
-        { username: uName, age: uAge, id: Math.random().toString() },
-      ];
-    });
+    // setUsers((prevUsers) => {
+    //   return [
+    //     ...prevUsers,
+    //     { username: uName, age: uAge, id: Math.random().toString() },
+    //   ];
+    // });
+
+    // 단일 표현식 반환
+    setUsers((prevUsers) => [
+      ...prevUsers,
+      { username: uName, age: uAge, id: Math.random().toString() },
+    ]);
   };
 
   return (
