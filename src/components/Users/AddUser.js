@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -7,13 +7,16 @@ import Wrapper from "../Helpers/Wrapper";
 import styles from "./AddUser.module.css";
 
 const AddUser = (props) => {
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+
   const [error, setError] = useState();
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    const enteredName = nameInputRef.current.value;
+    const enteredUserAge = ageInputRef.current.value;
+    if (enteredName.trim().length === 0 || enteredUserAge.trim().length === 0) {
       setError({
         title: "입력 값이 비어있습니다.",
         message: "이름과 나이를 비어있지 않게 입력해 주세요.",
@@ -22,7 +25,7 @@ const AddUser = (props) => {
     }
 
     // 단항 덧셈 연산자를 사용해 변수를 강제로 숫자로 변환
-    if (+enteredAge < 1) {
+    if (+enteredUserAge < 1) {
       setError({
         title: "나이 입력이 잘못되었습니다.",
         message: "나이는 0 이상을 입력해 주세요.",
@@ -30,7 +33,7 @@ const AddUser = (props) => {
       return;
     }
 
-    console.log(enteredUsername, enteredAge);
+    console.log(enteredName, enteredUserAge);
 
     // AddUser 컴포넌트에서 먼저 저장하는 코드
     // 내가 짠 코드
@@ -40,7 +43,7 @@ const AddUser = (props) => {
     //   // id: Math.random().toString(),
     // };
 
-    props.onAddUser(enteredUsername, enteredAge);
+    props.onAddUser(enteredName, enteredUserAge);
 
     // Number()를 사용해 변수를 숫자로 변환
     // if (Number(enteredAge) < 1) {
@@ -52,16 +55,8 @@ const AddUser = (props) => {
     // if (enteredAge < 1) {
     //   return;
     // }
-    setEnteredUsername("");
-    setEnteredAge("");
-  };
-
-  const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
-  };
-
-  const ageChangeHandler = (event) => {
-    setEnteredAge(event.target.value);
+    nameInputRef.current.value = "";
+    ageInputRef.current.value = "";
   };
 
   const errorHandler = () => {
@@ -80,19 +75,9 @@ const AddUser = (props) => {
       <Card className={styles.input}>
         <form onSubmit={addUserHandler}>
           <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            value={enteredUsername}
-            onChange={usernameChangeHandler}
-          />
+          <input id="username" type="text" ref={nameInputRef} />
           <label htmlFor="age">Age</label>
-          <input
-            id="age"
-            type="number"
-            value={enteredAge}
-            onChange={ageChangeHandler}
-          />
+          <input id="age" type="number" ref={ageInputRef} />
           <Button type="submit">Add User</Button>
         </form>
       </Card>
